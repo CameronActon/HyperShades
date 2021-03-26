@@ -1,8 +1,8 @@
 #include <Adafruit_NeoPixel.h>
 #include <Bounce2.h>
 
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(7, 8);
-Adafruit_NeoPixel preview = Adafruit_NeoPixel(3, 9);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(11, 0);
+//Adafruit_NeoPixel preview = Adafruit_NeoPixel(3, 9);
 
 
 //light buttons
@@ -23,7 +23,7 @@ bool isG = false;
 bool isB = false;
 
 //timer execution buttons
-Bounce s = Bounce();
+int s = 0;
 Bounce l = Bounce();
 
 //delay variables
@@ -38,21 +38,19 @@ void setup() {
   strip.begin();
   strip.clear();
 
-  preview.begin();
-  preview.clear();
+  //preview.begin();
+  //preview.clear();
 
   //debounce things
-  r.attach(5);
-  g.attach(6);
-  b.attach(7);
-  s.attach(3);
+  r.attach(1);
+  g.attach(2);
+  b.attach(3);
   l.attach(4);
 
   //buffer time
   r.interval(5);
   g.interval(5);
   b.interval(5);
-  s.interval(5);
   l.interval(5);
 
 }
@@ -62,7 +60,6 @@ void loop() {
   r.update();
   g.update();
   b.update();
-  s.update();
   l.update();
 
 
@@ -102,10 +99,12 @@ void loop() {
   }
 
   //checks for timer buttons
-  if (s.rose()) {
+  if (analogRead(s) < 1000) {
     shouldShow = 1;
     delayTime = 5000;
   }
+
+
   if (l.rose()) {
     shouldShow = 1;
     delayTime = 60000;
@@ -114,23 +113,20 @@ void loop() {
   //state machine for the lights
   switch (shouldShow) {
     case 0:
-    //clears glasses lights
-      strip.clear();
-      strip.show();
       //writes to preview board
-      for (int i = 0; i < preview.numPixels(); i++) {
-        preview.setPixelColor(0, rC, 0, 0);
-        preview.setPixelColor(1, 0, gC, 0);
-        preview.setPixelColor(2, 0, 0, bC);
-      }
-      preview.show();
+      strip.setPixelColor(0, rC, 0, 0);
+      strip.setPixelColor(1, 0, gC, 0);
+      strip.setPixelColor(2, 0, 0, bC);
+      strip.show();
       break;
+
+    ////////////////////////////
     case 1:
       //clears and turns off preview board
-      preview.clear();
-      preview.show();
+      strip.clear();
+      strip.show();
       //writes data to glasses strip
-      for (int i = 0; i < strip.numPixels(); i++) {
+      for (int i = 3; i < strip.numPixels(); i++) {
         //writes the neopixel strip
         strip.setPixelColor(i, rC, gC, bC);
       }
