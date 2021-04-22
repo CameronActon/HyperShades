@@ -138,7 +138,7 @@ void loop() {
       strip.show();
       shouldShow = 0;
 
-      //clears stores colors
+      //clears stored colors
       isR = false;
       isG = false;
       isB = false;
