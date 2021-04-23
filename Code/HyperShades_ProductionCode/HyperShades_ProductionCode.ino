@@ -22,6 +22,10 @@ bool isR = false;
 bool isG = false;
 bool isB = false;
 
+//Timer Variables
+int shortTime = 10000;
+unsigned long longTime = 45000;
+
 //timer execution buttons
 int s = 0;
 Bounce l = Bounce();
@@ -101,13 +105,13 @@ void loop() {
   //checks for timer buttons
   if (analogRead(s) < 1000) {
     shouldShow = 1;
-    delayTime = 5000;
+    delayTime = shortTime;
   }
 
 
   if (l.rose()) {
     shouldShow = 1;
-    delayTime = 60000;
+    delayTime = longTime;
   }
   ////////////////////////////////////////////////////////////////////
   //state machine for the lights
