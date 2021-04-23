@@ -128,7 +128,7 @@ void loop() {
       //writes data to glasses strip
       for (int i = 3; i < strip.numPixels(); i++) {
         //writes the neopixel strip
-        strip.setPixelColor(i, rC, gC, bC);
+        strip.setPixelColor(i, gC, rC, bC); //swapped green and red bc SMD NeoPixels are GRB
       }
       //shows lights on glasses for a period of time
       strip.show();
